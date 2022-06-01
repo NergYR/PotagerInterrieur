@@ -1,5 +1,6 @@
 // #include <Wire.h>
-#include "lib/DS1307.h"
+#include "./lib/DS1307.h"
+int relais_pin = 2; // Relais Pin number 2  
  
 DS1307 clock;//define a object of DS1307 class
 void setup()
@@ -10,6 +11,9 @@ void setup()
     clock.fillByHMS(14,30,30);//15:28 30"
     clock.fillDayOfWeek(WED);//Saturday
     clock.setTime();//write time to the RTC chip
+
+    
+    
 }
 void loop()
 {
@@ -60,9 +64,24 @@ void printTime()
     Serial.println(" ");
 
 if ((heure>=00)and(heure<6))
-  digitalWrite(ledPin, LOW)
+  Relais(0);
 
 else
-  digitalWrite(ledPin, HIGH)
+  Relais(1);
 
+}
+
+
+void Relais(int etat)
+{
+  if (etat==1)
+  {
+    digitalWrite(relais_pin, HIGH);
+  }
+  else
+  {
+    digitalWrite(relais_pin, LOW);
+  }
+}
+    
 }
