@@ -1,7 +1,6 @@
-// #include <Wire.h>
-#include "./lib/DS1307.h"
-int relais_pin = 2; // Relais Pin number 2  
- 
+#include <Wire.h>
+#include "DS1307.h"
+int ledPin=3;
 DS1307 clock;//define a object of DS1307 class
 void setup()
 {
@@ -11,9 +10,6 @@ void setup()
     clock.fillByHMS(14,30,30);//15:28 30"
     clock.fillDayOfWeek(WED);//Saturday
     clock.setTime();//write time to the RTC chip
-
-    
-    
 }
 void loop()
 {
@@ -22,16 +18,23 @@ void loop()
     /*Function: Display time on the serial monitor*/
 void printTime()
 {
+  int heure=clock.hour;
+  int minute=clock.minute;
+  int seconde=clock.second;
+  int mois=clock.month;
+  int jour=clock.dayOfMonth;
+
+  
     clock.getTime();
-    Serial.print(clock.hour, DEC);
+    Serial.print(heure, DEC);
     Serial.print(":");
-    Serial.print(clock.minute, DEC);
+    Serial.print(minute, DEC);
     Serial.print(":");
-    Serial.print(clock.second, DEC);
+    Serial.print(seconde, DEC);
     Serial.print("  ");
-    Serial.print(clock.month, DEC);
+    Serial.print(mois, DEC);
     Serial.print("/");
-    Serial.print(clock.dayOfMonth, DEC);
+    Serial.print(jour, DEC);
     Serial.print("/");
     Serial.print(clock.year+2000, DEC);
     Serial.print(" ");
@@ -63,25 +66,23 @@ void printTime()
     }
     Serial.println(" ");
 
-if ((heure>=00)and(heure<6))
-  Relais(0);
 
-else
-  Relais(1);
-
-}
-
-
-void Relais(int etat)
 {
-  if (etat==1)
-  {
-    digitalWrite(relais_pin, HIGH);
+if ((heure>=00)and(heure<6))
+  digitalWrite(ledPin, LOW);
+else
+  digitalWrite(ledPin, HIGH);
+}
+
+{
+if ( (mois>=5)and(mois<9) ){
+  if ((heure>=2)and(heure<6)){
+    digitalWrite(ledPin, LOW);
   }
-  else
-  {
-    digitalWrite(relais_pin, LOW);
+  else{
+    digitalWrite(ledPin, HIGH);
   }
 }
-    
+else
+  digitalWrite(ledPin, HIGH);}
 }
