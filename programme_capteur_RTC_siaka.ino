@@ -1,5 +1,5 @@
 // #include <Wire.h>
-#include "DS1307.h"
+#include "lib/DS1307.h"
  
 DS1307 clock;//define a object of DS1307 class
 void setup()
